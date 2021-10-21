@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\V1\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('verify/{verification_code}',[AuthController::class, 'verifyUser']);
+
+Route::get('password/reset/{verification_code}', [AuthController::class, 'reset_password'])->name('password.reset');
+
+Route::post('update-password', [AuthController::class, 'update_password'])->name('update_password');
