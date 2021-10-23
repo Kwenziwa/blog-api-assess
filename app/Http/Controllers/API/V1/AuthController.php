@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AvaterRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Transformers\UserTransformer;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UserUpdateRequest;
@@ -152,6 +153,8 @@ class AuthController extends Controller
 
         $user = JWTAuth::user();
 
+        $user_transformed_details = fractal()->item($user)->transformWith(new UserTransformer);
+
         if($user->is_verified == 0 ){
 
             // Send Verification Email , function location : app/Helpers/helpers.php
@@ -167,7 +170,7 @@ class AuthController extends Controller
             'status_code' => '1',
             'status_message' => "User logged in successfully",
             'token' => $jwt_token,
-            'user' => $user,
+            'user' => $user_transformed_details,
         ]);
     }
 
@@ -181,9 +184,7 @@ class AuthController extends Controller
 
     public function getAuthenticatedUser()
     {
-        $user_details = JWTAuth::parseToken()->authenticate();
 		$user = User::where('id', JWTAuth::parseToken()->authenticate()->id)->first();
-
         return response()->json([
             'status_code' => '1',
             'status_message' => "Profile Details Success",
