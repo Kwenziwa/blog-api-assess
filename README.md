@@ -44,7 +44,9 @@ If you leave APP_DEBUG as true, in the event of errors you’ll be displaying se
     MAIL_ENCRYPTION=null
     MAIL_FROM_ADDRESS=null
     MAIL_FROM_NAME="${APP_NAME}"
-    Generate a new application key
+    
+    
+   Generate a new application key
 
     php artisan key:generate
 
