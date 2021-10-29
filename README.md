@@ -55,14 +55,16 @@ Run the database migrations with seed (**Set the database connection in .env bef
 
     php artisan migrate --seed
     
-We need to set some folder permissions so they are writeable, specifically the /storage/ and /bootstrap/cache/ folders.
-    
-    chmod -R o+w storage
-    chmod -R o+w bootstrap/cache
-    
-To make these files accessible from the web, you should create a symbolic link from public/storage to storage/app/public.
+Run this command to check if your Cronjob is registered to Artisan. You must see it in the list:
 
-    php artisan storage:link
+    php artisan list
+What if you want to set the crone job to run automatically without initiating using command. Just run this command:
+
+    crontab -e
+    
+This will open server crontab file, paste this code inside, save it and exit.
+    
+    * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1    
     
 Three simple steps for improving performanc
 
